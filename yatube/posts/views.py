@@ -16,7 +16,6 @@ def pagination(request, posts):
 
 def index(request):
     post_list = Post.objects.all()
-    page_number = request.GET.get('page')
     page_obj = pagination(request, post_list)
     context = {
         'page_obj': page_obj,
@@ -27,7 +26,6 @@ def index(request):
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
     post_list = Post.objects.all()
-    page_number = request.GET.get('page')
     page_obj = pagination(request, post_list)
     context = {
         'page_obj': page_obj,
@@ -41,7 +39,6 @@ def profile(request, username):
     number_of_posts = post_user_list.count()
     user = get_object_or_404(User, username=username)
     post_list = user.posts.all()
-    page_number = request.GET.get('page')
     page_obj = pagination(request, post_list)
     context = {
         'page_obj': page_obj,
