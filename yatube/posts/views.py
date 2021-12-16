@@ -6,11 +6,13 @@ from .forms import PostForm
 from .models import Post, Group
 from django.core.paginator import Paginator
 
+
 def pagination(request, posts):
     paginator = Paginator(posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return(page_obj)
+
 
 def index(request):
     post_list = Post.objects.all()
@@ -81,7 +83,6 @@ def post_create(request):
 def post_edit(request, post_id):
     post = get_object_or_404(Post, pk=post_id)
     if post.author == request.user:
-        is_edit = True
         form = PostForm(request.POST or None, instance=post)
     if request.method == 'POST':
         form = PostForm(request.POST or None, instance=post)
