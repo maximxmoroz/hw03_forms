@@ -11,7 +11,7 @@
       <div class="col-md-8 p-5">
         <div class="card">
           <div class="card-header">      
-            Новый пост            
+            Создание поста            
           </div>
           <div class="card-body">
             {% if form.errors %}
@@ -32,8 +32,9 @@
               {% csrf_token %}         
                 <div class="form-group row my-3 p-3">
                   <label for="{{ form.text.id_for_label }}">
-                   Teкст Поста                  
-                  <span class="required text-danger" >*</span>                  
+                   {{ field.label }} {% if field.field.required %}
+                  <span class="required text-danger" >*</span>
+                  {% endif %}                  
                   </label>
                   {{ form.text }}
                   </textarea>                
