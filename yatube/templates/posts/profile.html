@@ -19,7 +19,7 @@
         </li>
       </ul>
       <p>
-        {{ post.text }}
+        {{ post.text|linebreaksbr }}
       </p>
       <a href="{% url 'posts:post_detail' post.pk %}">Подробная информация </a>
       {% if post.group is not None %}      

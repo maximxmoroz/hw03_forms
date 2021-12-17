@@ -11,7 +11,11 @@
       <div class="col-md-8 p-5">
         <div class="card">
           <div class="card-header">      
-            Создание поста            
+            {% if is_edit %}
+              Добавить запись
+            {% else %}
+              Редактировать запись
+            {% endif %}
           </div>
           <div class="card-body">
             {% if form.errors %}
@@ -38,9 +42,7 @@
                   </label>
                   {{ form.text }}
                   </textarea>                
-                  <small id="id_text-help" class="form-text text-muted">
-                    Текст нового поста
-                  </small>                  
+                  <small id="{{ field.id_for_label }}-help" class="form-text text-muted">{{ field.help_text|safe }}</small>                  
                 </div>           
                 <div class="form-group row my-3 p-3">
                   <label for="={{ form.group.id_for_label }}">

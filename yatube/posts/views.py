@@ -25,7 +25,7 @@ def index(request):
 
 def group_posts(request, slug):
     group = get_object_or_404(Group, slug=slug)
-    post_list = Post.objects.all()
+    post_list = Post.objects.filter(group=group)
     page_obj = pagination(request, post_list)
     context = {
         'page_obj': page_obj,
@@ -35,8 +35,6 @@ def group_posts(request, slug):
 
 
 def profile(request, username):
-    post_user_list = Post.objects.select_related('author', 'group').all()
-    number_of_posts = post_user_list.count()
     user = get_object_or_404(User, username=username)
     post_list = user.posts.all()
     page_obj = pagination(request, post_list)
@@ -78,10 +76,9 @@ def post_create(request):
 
 @login_required
 def post_edit(request, post_id):
-    post = get_object_or_404(Post, pk=post_id)
-    if post.author == request.user:
-        form = PostForm(request.POST or None, instance=post)
-    if request.method == 'POST':
+    if not post.author == request.user:
+        return redirect('post', username, post_id)
+        post = get_object_or_404(Post, pk=post_id)
         form = PostForm(request.POST or None, instance=post)
         if form.is_valid():
             post = form.save(commit=False)
@@ -90,6 +87,5 @@ def post_edit(request, post_id):
             return redirect('posts:post_detail', post_id)
         context = {'form': form, 'is_edit': True}
         return render(request, 'posts/create_post.html', context)
-    form = PostForm(instance=post)
     return render(request, 'posts/create_post.html',
                   {'is_edit': True, 'form': form})
