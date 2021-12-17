@@ -41,8 +41,6 @@ def profile(request, username):
     context = {
         'page_obj': page_obj,
         'author': user,
-        'number_of_posts': number_of_posts,
-
     }
     return render(request, 'posts/profile.html', context)
 
@@ -77,7 +75,7 @@ def post_create(request):
 @login_required
 def post_edit(request, post_id):
     if not post.author == request.user:
-        return redirect('post', username, post_id)
+        return redirect(post_id)
         post = get_object_or_404(Post, pk=post_id)
         form = PostForm(request.POST or None, instance=post)
         if form.is_valid():
